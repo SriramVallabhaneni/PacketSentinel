@@ -1,12 +1,14 @@
 from scapy.all import sniff, IP, TCP, UDP, ARP
 from ids.detector import analyze_packet
-from ids.alerts import trigger_alert, init_db          
+from ids.alerts import trigger_alert, init_db
+from ids.metrics import record_alert, start_metrics_server          
 
 def packet_callback(packet):
     alerts = analyze_packet(packet)
 
     for alert in alerts:
-        trigger_alert(alert)                           
+        trigger_alert(alert)
+        record_alert(alert)                           
 
     if IP in packet:
         src_ip = packet[IP].src
@@ -21,7 +23,8 @@ def packet_callback(packet):
         print(f"  [ARP] {packet[ARP].psrc} is at {packet[ARP].hwsrc}")
 
 def start_sniffing(interface=None):
-    init_db()                                          # ← add this
+    init_db()
+    start_metrics_server()
     print(f"[*] Starting sniffer on interface: {interface or 'default'}")
     sniff(
         iface=interface,
