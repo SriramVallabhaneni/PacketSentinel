@@ -1,0 +1,2 @@
+prometheus_client==0.24.1
+scapy==2.7.0
