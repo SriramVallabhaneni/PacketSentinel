@@ -1,7 +1,9 @@
-from scapy.all import sniff, IP, TCP, UDP, ARP
+from scapy.all import sniff, IP, TCP, UDP, ARP, conf
 from ids.detector import analyze_packet
 from ids.alerts import trigger_alert, init_db
-from ids.metrics import record_alert, start_metrics_server          
+from ids.metrics import record_alert, start_metrics_server
+
+conf.use_pcap = True
 
 def packet_callback(packet):
     alerts = analyze_packet(packet)
