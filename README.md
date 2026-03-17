@@ -47,6 +47,24 @@ Grafana Dashboard
 
 ---
 
+## Platform Requirements
+
+**This project requires a native Linux machine or Linux VM.**
+
+`docker-compose.yml` uses `network_mode: host` for the IDS container, which gives it direct access to the host's network interface for raw packet capture. This only works correctly on Linux — on macOS and Windows, Docker runs inside a Hyper-V VM and `network_mode: host` exposes the VM's network rather than the real host interface, making real traffic capture impossible.
+
+**Supported:**
+- Linux machine (Ubuntu, Debian, etc.)
+- Linux VM (on any host OS)
+- AWS EC2 or any Linux cloud instance
+
+**Not supported:**
+- macOS (natively)
+- Windows (natively)
+- WSL2
+
+---
+
 ## Detection Rules
 
 | Attack | Method | Threshold |
@@ -56,18 +74,6 @@ Grafana Dashboard
 | ARP Spoof | IP→MAC mapping changes unexpectedly | Any change |
 
 Thresholds are configurable in `ids/detector.py`. In production these should be tuned based on your network's normal baseline traffic.
-
----
-
-## A Note on How This Project Runs
-
-The IDS app requires **raw network socket access** to capture packets at the network interface level. This means it must run natively on the host machine with root privileges. I am currently unable to fully containerized in the current setup.
-
-Docker is used here for **Prometheus and Grafana only**. The IDS app runs natively alongside the Docker stack.
-
-This is a deliberate architectural decision: raw packet capture requires direct access to the host network interface, which Docker's network isolation seems to prevents on my current platform (WSL2). On WSL2 and Windows, `network_mode: host` does not expose the real host network interface. It exposes the Hyper-V VM's interface instead, making packet capture of real traffic impossible.
-
-The `Dockerfile` is included in the repo for completeness and works correctly on a real Linux machine or VM if you choose to build and run the container manually.
 
 ---
 
