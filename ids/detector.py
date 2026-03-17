@@ -6,7 +6,7 @@ import time
 PORT_SCAN_THRESHOLD = 20      # unique ports in time window
 SYN_FLOOD_THRESHOLD = 100     # SYN packets in time window
 TIME_WINDOW = 5               # seconds
-COOLDOWN = 10                 # to prevent duplicate alerts
+COOLDOWN = 60                 # to prevent duplicate alerts
 
 # State tracking
 

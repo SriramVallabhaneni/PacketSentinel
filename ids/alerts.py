@@ -86,7 +86,8 @@ def get_recent_alerts(limit=20):
     cursor.execute("""
         SELECT timestamp, attack_type, source_ip, details
         FROM alerts
-        ORDER BY id DESC
+	GROUP BY attack_type, source_ip
+        ORDER BY MAX(id) DESC
         LIMIT ?
     """, (limit,))
     rows = cursor.fetchall()
