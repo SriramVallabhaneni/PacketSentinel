@@ -24,6 +24,11 @@ A Python-based network intrusion detection system (IDS) that monitors live traff
 
 ---
 
+## Screenshots
+![IDS Dashboard](screenshots/IDS-Dashboard-Screenshot.png)
+
+---
+
 ## Architecture
 
 ```
